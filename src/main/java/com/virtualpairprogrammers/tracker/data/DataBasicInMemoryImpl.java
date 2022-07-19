@@ -77,7 +77,8 @@ public class DataBasicInMemoryImpl implements Data
 		long timeInMillis = timeBinMillis - timeAinMillis;
 		if (timeInMillis == 0) return new BigDecimal("0");
 
-		BigDecimal timeInSeconds = new BigDecimal(timeInMillis / 1000.0);
+		double d = timeInMillis / 1000.0;
+		BigDecimal timeInSeconds = BigDecimal.valueOf(d);
 
 		GlobalPosition pointA = new GlobalPosition(posA.getLat().doubleValue(), posA.getLongitude().doubleValue(), 0.0);
 		GlobalPosition pointB = new GlobalPosition(posB.getLat().doubleValue(), posB.getLongitude().doubleValue(), 0.0);
