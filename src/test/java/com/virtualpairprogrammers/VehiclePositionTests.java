@@ -10,7 +10,6 @@ import org.junit.Test;
 import com.virtualpairprogrammers.tracker.domain.VehicleBuilder;
 import com.virtualpairprogrammers.tracker.domain.VehiclePosition;
 
-
 public class VehiclePositionTests {
 
 	private static final Date TIMESTAMP = TestUtils.getDateFrom("Wed Feb 01 10:26:12 BST 2017");
@@ -27,7 +26,7 @@ public class VehiclePositionTests {
 		VehiclePosition two = new VehicleBuilder().withName("truck").withTimestamp(TIMESTAMP).build();
 		assertEquals(one, two);
 	}
-	
+
 	@Test
 	public void testNonEquality()
 	{
@@ -40,7 +39,7 @@ public class VehiclePositionTests {
 		VehiclePosition two = new VehicleBuilder().withName("truck").withTimestamp(TIMESTAMP).build();
 		assertNotEquals(one, two);
 	}
-	
+
 	@Test
 	public void testDifferentVehiclesAreNeverEqual()
 	{
@@ -53,7 +52,7 @@ public class VehiclePositionTests {
 		VehiclePosition two = new VehicleBuilder().withName("truckdifferent").withTimestamp(TIMESTAMP).build();
 		assertNotEquals(one, two);
 	}
-	
-	
-	
+
+
+
 }

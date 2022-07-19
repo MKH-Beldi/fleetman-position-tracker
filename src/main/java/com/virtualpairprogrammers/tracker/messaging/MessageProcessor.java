@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,25 +17,25 @@ import com.virtualpairprogrammers.tracker.domain.VehiclePosition;
 
 @Component
 public class MessageProcessor {
-	
+
 	@Autowired
 	private Data data;
-	
+
 	private DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
 	@JmsListener(destination="${fleetman.position.queue}")
-	public void processPositionMessageFromQueue(Map<String, String> incomingMessage ) throws ParseException 
+	public void processPositionMessageFromQueue(Map<String, String> incomingMessage ) throws ParseException
 	{
 		String positionDatestamp = incomingMessage.get("time");
 		Date convertedDatestamp = format.parse(positionDatestamp);
-		
+
 		VehiclePosition newReport = new VehicleBuilder()
-				                          .withName(incomingMessage.get("vehicle"))
-				                          .withLat(new BigDecimal(incomingMessage.get("lat")))
-				                          .withLng(new BigDecimal(incomingMessage.get("long")))
-				                          .withTimestamp(convertedDatestamp)
-				                          .build();
-				                          
+				.withName(incomingMessage.get("vehicle"))
+				.withLat(new BigDecimal(incomingMessage.get("lat")))
+				.withLng(new BigDecimal(incomingMessage.get("long")))
+				.withTimestamp(convertedDatestamp)
+				.build();
+
 		data.updatePosition(newReport);
 	}
 

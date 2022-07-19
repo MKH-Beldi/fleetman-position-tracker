@@ -26,20 +26,20 @@ import com.virtualpairprogrammers.tracker.domain.VehiclePosition;
  */
 @Profile("standalone")
 @Component
-public class LocalDevelopmentMessageSender 
+public class LocalDevelopmentMessageSender
 {
 	private static final String[] testVehicleNames = { "Test Vehicle 1", "Test Vehicle 2", "Test Vehicle 3", "Test Vehicle 4", "Test Vehicle 5"};
 	private static final BigDecimal startLat = new BigDecimal("53.383882");
 	private static final BigDecimal startLng = new BigDecimal("-1.483979");
 	private DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 	private VehiclePosition[] lastPositions;
-	
+
 	@Autowired
 	private JmsMessagingTemplate template;
-	
+
 	@Value("${fleetman.position.queue}")
 	private String destination;
-	
+
 	@PostConstruct
 	public void init() {
 		lastPositions = new VehiclePosition[testVehicleNames.length];
@@ -47,14 +47,14 @@ public class LocalDevelopmentMessageSender
 		{
 			String testVehicleName = testVehicleNames[i];
 			VehiclePosition testVehicle =new VehicleBuilder().withName(testVehicleName)
-                    										.withLat(startLat)
-                    										.withLng(startLng)
-                    										.withTimestamp(new java.util.Date()).build(); 
+					.withLat(startLat)
+					.withLng(startLng)
+					.withTimestamp(new java.util.Date()).build();
 			lastPositions[i]=testVehicle;
 			sendMessageToEmbeddedQueue(testVehicle);
 		}
 	}
-	
+
 	@Scheduled(fixedRate=100)
 	public void sendPeriodicVehcileUpdates()
 	{
@@ -62,15 +62,15 @@ public class LocalDevelopmentMessageSender
 		double randomChangeY = (Math.random() - 0.5) / 10000;
 
 		int randomVehicleIndex = (int)(testVehicleNames.length * Math.random());
-		VehiclePosition lastPosition = lastPositions[randomVehicleIndex]; 
-		
+		VehiclePosition lastPosition = lastPositions[randomVehicleIndex];
+
 		BigDecimal newLat = lastPosition.getLat().add(new BigDecimal("" + randomChangeX));
 		BigDecimal newLng = lastPosition.getLongitude().add(new BigDecimal("" + randomChangeY));
-		
+
 		VehiclePosition newPosition = new VehicleBuilder().withName(lastPosition.getName())
-				                                         .withLat(newLat)
-				                                         .withLng(newLng)
-				                                         .withTimestamp(new java.util.Date()).build();
+				.withLat(newLat)
+				.withLng(newLng)
+				.withTimestamp(new java.util.Date()).build();
 		lastPositions[randomVehicleIndex] = newPosition;
 		sendMessageToEmbeddedQueue(lastPosition);
 	}
