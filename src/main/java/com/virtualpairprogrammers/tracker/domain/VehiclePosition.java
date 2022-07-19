@@ -16,13 +16,13 @@ public class VehiclePosition implements Comparable<VehiclePosition>
 	private String name;
 	private BigDecimal lat;
 	private BigDecimal longitude;
-
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone="UTC")
+	
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone="UTC")
 	private Date timestamp;
 	private BigDecimal speed;
-
+	
 	VehiclePosition() {}
-
+	
 	VehiclePosition(String name, BigDecimal lat, BigDecimal lng, Date timestamp, BigDecimal speed) {
 		this.name = name;
 		this.lat = lat;
@@ -32,11 +32,11 @@ public class VehiclePosition implements Comparable<VehiclePosition>
 	}
 
 	@Override
-	public int compareTo(VehiclePosition o)
+	public int compareTo(VehiclePosition o) 
 	{
 		return o.timestamp.compareTo(this.timestamp);
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

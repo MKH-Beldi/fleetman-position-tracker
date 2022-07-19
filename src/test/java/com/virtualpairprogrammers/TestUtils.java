@@ -12,11 +12,11 @@ class TestUtils {
 		DateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
 		try {
 			return format.parse(timestamp);
-		}
-		catch (ParseException e)
+		} 
+		catch (ParseException e) 
 		{
 			// code error
 			throw new RuntimeException(e);
-		}
+		} 
 	}
 }

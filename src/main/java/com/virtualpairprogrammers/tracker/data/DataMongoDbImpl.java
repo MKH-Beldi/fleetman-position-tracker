@@ -1,17 +1,18 @@
 package com.virtualpairprogrammers.tracker.data;
 
-import com.virtualpairprogrammers.tracker.domain.VehicleBuilder;
-import com.virtualpairprogrammers.tracker.domain.VehicleNotFoundException;
-import com.virtualpairprogrammers.tracker.domain.VehiclePosition;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.TreeSet;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.TreeSet;
+import com.virtualpairprogrammers.tracker.domain.VehicleBuilder;
+import com.virtualpairprogrammers.tracker.domain.VehicleNotFoundException;
+import com.virtualpairprogrammers.tracker.domain.VehiclePosition;
 
 /**
  * This is a very quick and dirty implementation of a Mongo data store. The implementations
