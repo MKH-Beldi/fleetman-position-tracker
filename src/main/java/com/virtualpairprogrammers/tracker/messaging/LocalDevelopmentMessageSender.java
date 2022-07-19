@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.security.SecureRandom;
 
 import javax.annotation.PostConstruct;
 
@@ -47,9 +48,9 @@ public class LocalDevelopmentMessageSender
 		{
 			String testVehicleName = testVehicleNames[i];
 			VehiclePosition testVehicle =new VehicleBuilder().withName(testVehicleName)
-					.withLat(startLat)
-					.withLng(startLng)
-					.withTimestamp(new java.util.Date()).build();
+                    										.withLat(startLat)
+                    										.withLng(startLng)
+                    										.withTimestamp(new java.util.Date()).build();
 			lastPositions[i]=testVehicle;
 			sendMessageToEmbeddedQueue(testVehicle);
 		}
@@ -58,19 +59,20 @@ public class LocalDevelopmentMessageSender
 	@Scheduled(fixedRate=100)
 	public void sendPeriodicVehcileUpdates()
 	{
-		double randomChangeX = (Math.random() - 0.5) / 10000;
-		double randomChangeY = (Math.random() - 0.5) / 10000;
+		SecureRandom rand = new SecureRandom();
+		double randomChangeX = (rand.nextDouble() - 0.5) / 10000;
+		double randomChangeY = (rand.nextDouble() - 0.5) / 10000;
 
-		int randomVehicleIndex = (int)(testVehicleNames.length * Math.random());
+		int randomVehicleIndex = (int)(testVehicleNames.length * rand.nextDouble());
 		VehiclePosition lastPosition = lastPositions[randomVehicleIndex];
 
 		BigDecimal newLat = lastPosition.getLat().add(new BigDecimal("" + randomChangeX));
 		BigDecimal newLng = lastPosition.getLongitude().add(new BigDecimal("" + randomChangeY));
 
 		VehiclePosition newPosition = new VehicleBuilder().withName(lastPosition.getName())
-				.withLat(newLat)
-				.withLng(newLng)
-				.withTimestamp(new java.util.Date()).build();
+				                                         .withLat(newLat)
+				                                         .withLng(newLng)
+				                                         .withTimestamp(new java.util.Date()).build();
 		lastPositions[randomVehicleIndex] = newPosition;
 		sendMessageToEmbeddedQueue(lastPosition);
 	}
